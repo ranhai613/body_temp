@@ -19,30 +19,27 @@
         <input type="button" id="output" value="一つ生成">
         <input type="button"  id="outputs" value="複数生成">
         <input type="button"  id="all_outputs" value="一度に生成">
-            <input type="number" id="all_step" value="10">
+            <input type="number" id="all_step" value="10" min="0" max="1000">
         <input type="button" id="reset" value="リセット">
         <p></p>
         <span id="outline"></span>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script>
-            var random_temp;
             function out(){
-                var t_max = document.getElementById("temp_max");
-                var t_min = document.getElementById("temp_min");
-                if(t_min.value > t_max.value){
+                var t_max = $('#temp_max').val();
+                var t_min = $('#temp_min').val();
+                if(t_min > t_max){
                     $('#outline').text('正確な値を入力してください');
                     return;
                 }
-                random_temp = ((Math.round(((((Math.random() + Math.random()) / 2) * (t_max.value + 1 - t_min.value)) + parseFloat(t_min.value)) *10 ) / 10) + '.0').substr(0,4);
+                var random_temp = ((Math.round(((((Math.random() + Math.random()) / 2) * (t_max + 1 - t_min)) + parseFloat(t_min)) * 10 ) / 10) + '.0').substr(0,4);
+                return random_temp;
             }
             $("#output").click(function(){
-                out();
-                $('#outline').text(random_temp);
+                $('#outline').text(out());
             });
             $('#outputs').click(function(){
-                out();
-                $('#outline').append(random_temp);
-                $('#outline').append('<p>');
+                $('#outline').append('<p>' + out());
             });
             $('#all_outputs').click(function(){
                 for (let i = 0; i < $('#all_step').val(); i++){
